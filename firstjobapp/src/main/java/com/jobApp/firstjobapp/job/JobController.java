@@ -10,16 +10,22 @@ import java.util.List;
 
 @RestController
 public class JobController {
-    private List<Job> jobs =   new ArrayList<Job>();
+
+    private JobService jobService;
+    // dependency injection via controller
+    // loosely coupled
+    public JobController(JobService jobService) {
+        this.jobService = jobService;
+    }
 
     @GetMapping("/jobs")
     public List<Job> findAll(){
-        return jobs;
+        return jobService.findAll();
     }
 
     @PostMapping("/jobs")
     public String createJob( @RequestBody Job job){
-        jobs.add(job);
+        jobService.createJob(job);
         return "Job created";
     }
 }
